@@ -64,18 +64,41 @@ function game() {
 
     let pScore = 0;
     let cScore = 0;
+    let roundScore = "";
 
-    for (let i = 0; i < 5; i++)
+    for (let i = 1; i < 6; i++)
     {
-        playerChoice = prompt("Round " + i + 1 + " Choose your weapon: Rock, Paper, or Scissors");
-        playGame(playerChoice, getComputerChoice()).slice(5,5) === "w" ? pScore++ : cScore++;
+        playerChoice = prompt("Round " + i + " Choose your weapon: Rock, Paper, or Scissors");
+        roundScore = playGame(playerChoice, getComputerChoice());
+
+        alert(roundScore);
+
+        if (roundScore.slice(4,5) === "w")
+        {
+            pScore++;
+        }
+        else if (roundScore.slice(4,5) === "l")
+        {
+            cScore++;
+        }
+        // do i need to make a draw condition? nothing should happen if it's an "a"
+     
+
+        console.log("roundScore: " + roundScore);
+        console.log("roundScore slice: " + roundScore.slice(4,5));
+
+        console.log("pScore: " + pScore);
+        console.log("cScore: " + cScore);
     }
     alert("The final score: Player " + pScore + " Computer " + cScore);
 }
 
 game();
 
+// Well it works, but the substring answer is clumsy
 
+
+// 1st pass pseudo code below
 
     // ok maybe shrinking to letters wasn't good? nah
     // how to separate the win/lose/tie conditions?
