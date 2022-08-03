@@ -1,7 +1,29 @@
-console.log("Hello from the script.js file");
 
+const rockButt = document.querySelector('#rock');
+const paperButt = document.querySelector('#paper');
+const scissorsButt = document.querySelector('#scissors');
 
 let playerChoice = "";
+
+let pScore = 0;
+let cScore = 0;
+let roundResult = "";
+let round = 0;
+
+const container = document.querySelector('#container');
+const answer = document.createElement('h1');
+const pScoreSpace = document.createElement('h2');
+const cScoreSpace = document.createElement('h2');
+
+answer.textContent = "Pick your weapon..."
+pScoreSpace.textContent = "Player score: " + pScore;
+cScoreSpace.textContent = "Computer score: " + cScore;
+
+container.appendChild(answer);
+container.appendChild(pScoreSpace);
+container.appendChild(cScoreSpace);
+
+
 
 function getComputerChoice() {
     let choiceInt = Math.floor(Math.random()*3)+1;
@@ -30,33 +52,47 @@ function playGame(pChoice, cChoice){
     let pAbrv = pChoice.slice(0,1); //short for player abbreviation
     let cAbrv = cChoice.slice(0,1).toLowerCase();
 
-    let results;
-
-    console.log("playerChoice is " + pChoice);
-
-    console.log("compChoice is " + cChoice);
-
-    if (pAbrv === cAbrv) {
+    let results = "";
+    console.log(pChoice);
+    console.log(cChoice);
+    
+    if (round >= 5)
+    {
+        if (pScore > cScore){
+            answer.textContent = "Player has won the game!";
+        }
+        else if (cScore > pScore){
+            answer.textContent = "Computer has won the game!";
+        }
+        else if (cScore == pScore){
+            answer.textContent = "It's a draw, how rare!";
+        }
+        pScoreSpace.textContent = "Player final score: " + pScore;
+        cScoreSpace.textContent = "Computer final score: " + cScore;
+    }
+    else{
+        if (pAbrv === cAbrv) {
         results = "It's a draw!"
+        }
+        else if ((pAbrv === 'r' && cAbrv === 's') 
+                || (pAbrv === 'p' && cAbrv === 'r') 
+                || (pAbrv === 's' && cAbrv === 'p')){
+            results = "You win! " + pChoice + " beats " + cChoice + "."
+            pScore++;
+        }
+        else {
+        results = "You lose! " + cChoice + " beats " + pChoice + "."
+        cScore++;
+        }
+
+        round++;
+        answer.textContent = "Round " + round + ": " + results;
+        pScoreSpace.textContent = "Player score: " + pScore;
+        cScoreSpace.textContent = "Computer score: " + cScore;
     }
-    else if ((pAbrv === 'r' && cAbrv === 's') 
-            || (pAbrv === 'p' && cAbrv === 'r') 
-            || (pAbrv === 's' && cAbrv === 'p')){
-        results = "You win! " + pChoice + " beats " + cChoice + "."
-            }
-    else {
-       results = "You lose! " + cChoice + " beats " + pChoice + "."
-    }
+}
 
-    return alert(results);
 
-    }
-
-const rockButt = document.querySelector('#rock');
-const paperButt = document.querySelector('#paper');
-const scissorsButt = document.querySelector('#scissors');
-
-console.log(rockButt); // why is that returning null? Ha, had to defer it!
 
 
 rockButt.addEventListener('click', () => playGame('rock',getComputerChoice()));
