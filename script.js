@@ -24,7 +24,6 @@ container.appendChild(pScoreSpace);
 container.appendChild(cScoreSpace);
 
 
-
 function getComputerChoice() {
     let choiceInt = Math.floor(Math.random()*3)+1;
 
@@ -53,51 +52,67 @@ function playGame(pChoice, cChoice){
     let cAbrv = cChoice.slice(0,1).toLowerCase();
 
     let results = "";
-    console.log(pChoice);
-    console.log(cChoice);
-    
-    if (round >= 5)
-    {
-        if (pScore > cScore){
-            answer.textContent = "Player has won the game!";
-        }
-        else if (cScore > pScore){
-            answer.textContent = "Computer has won the game!";
-        }
-        else if (cScore == pScore){
-            answer.textContent = "It's a draw, how rare!";
-        }
-        pScoreSpace.textContent = "Player final score: " + pScore;
-        cScoreSpace.textContent = "Computer final score: " + cScore;
-    }
-    else{
+
+    if(round < 4){
+        round++;
         if (pAbrv === cAbrv) {
-        results = "It's a draw!"
+            results = "It's a draw!"
         }
         else if ((pAbrv === 'r' && cAbrv === 's') 
-                || (pAbrv === 'p' && cAbrv === 'r') 
-                || (pAbrv === 's' && cAbrv === 'p')){
+            || (pAbrv === 'p' && cAbrv === 'r') 
+            || (pAbrv === 's' && cAbrv === 'p')){
             results = "You win! " + pChoice + " beats " + cChoice + "."
             pScore++;
         }
         else {
-        results = "You lose! " + cChoice + " beats " + pChoice + "."
-        cScore++;
+            results = "You lose! " + cChoice + " beats " + pChoice + "."
+            cScore++;
         }
-
-        round++;
         answer.textContent = "Round " + round + ": " + results;
         pScoreSpace.textContent = "Player score: " + pScore;
         cScoreSpace.textContent = "Computer score: " + cScore;
+        
     }
+    
+    else {
+        if (pAbrv === cAbrv) {
+        }
+        else if ((pAbrv === 'r' && cAbrv === 's') 
+            || (pAbrv === 'p' && cAbrv === 'r') 
+            || (pAbrv === 's' && cAbrv === 'p')){
+            pScore++;
+        }
+        else {
+            cScore++;
+        }
+
+        document.querySelector('#rock').disabled = true;
+        document.querySelector('#paper').disabled = true;
+        document.querySelector('#scissors').disabled = true;
+
+        if (pScore > cScore){
+        answer.textContent = "Round 5: Player has won the game!";
+        }
+        else if (cScore > pScore){
+            answer.textContent = "Round 5: Computer has won the game!";
+        }
+        else if (cScore == pScore){
+            answer.textContent = "Round 5: It's a draw, how rare!";
+        }
+        pScoreSpace.textContent = "Player final score: " + pScore;
+        cScoreSpace.textContent = "Computer final score: " + cScore;
+    }
+    console.log("round: " + round);
+    console.log("pscore: " + pScore);
+    console.log("cscore: " + cScore);
 }
-
-
-
-
 rockButt.addEventListener('click', () => playGame('rock',getComputerChoice()));
 
 paperButt.addEventListener('click', () => playGame('paper',getComputerChoice()));
 
 scissorsButt.addEventListener('click', () => playGame('scissors',getComputerChoice()));
+
+
+
+
 
